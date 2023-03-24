@@ -29,7 +29,6 @@ function LoginPage() {
       })
       .then((res) => {
         if (res?.data?.token) {
-          console.log(res);
           setLinked("/userinfo");
         } else if (res?.status === 201) {
           console.log("Successfull sent!");
@@ -50,7 +49,7 @@ function LoginPage() {
         setPassword("");
       });
   };
-  console.log(linked);
+
   return (
     <div>
       <div className="flex flex-col justify-center items-center ">

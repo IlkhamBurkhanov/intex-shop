@@ -33,7 +33,7 @@ function UserProfile() {
     setAddInfo(true);
     setLogOut(false);
   };
-  console.log(userInfo, orderInfo, addInfo);
+
   return (
     <div>
       <div className="grid grid-cols-11 mt-[170px] gap-5 mx-20">

@@ -20,7 +20,7 @@ const Basket = () => {
   const [data, setData] = useState([]);
   const dispatch = useDispatch();
 
-  ttps: React.useEffect(() => {
+  React.useEffect(() => {
     axios
       .get(
         "https://intex-shop-production.up.railway.app/api/users/profile/orders",

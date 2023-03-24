@@ -262,15 +262,15 @@ const SimilarProducts = ({ mobile }) => {
                       </h3>
                       <span
                         className={`${
-                          item.sub_attributes.length > 0 ? "" : "h-6"
+                          item.subattributes.length > 0 ? "" : "h-6"
                         } text-xs md:text-base m-0 mb-2 block leading-22 text-black-black_thin`}
                       >
-                        {item.sub_attributes[0]?.attribute_ru}{" "}
+                        {item.subattributes[0]?.attribute_ru}{" "}
                         {lang === "ru"
-                          ? item.sub_attributes[4]?.attribute_ru
+                          ? item.subattributes[4]?.attribute_ru
                           : lang === "en"
-                          ? item.sub_attributes[4]?.attribute_en
-                          : item.sub_attributes[4]?.attribute_uz}
+                          ? item.subattributes[4]?.attribute_en
+                          : item.subattributes[4]?.attribute_uz}
                       </span>
                       <span
                         className={`text-xs md:text-sm block line-through text-gray-text_color ${

@@ -52,18 +52,17 @@ export default function Products({ data }) {
 
     return filterInput;
   }
-  console.log(heading);
+
   const handleClick = () => {
     setRotateEl(!rotateEl);
   };
   useEffect(() => {
     axios.get(`${env}products?page=0&limit=100`).then((res) => {
-      console.log(res);
       setFilter(res?.data?.result);
       // setLoader(false);
     });
   }, []);
-  console.log(filter);
+
   const handleClicked = () => {
     // Chckedboxs
     // const filterData = filter.filter((item) => {
@@ -72,8 +71,6 @@ export default function Products({ data }) {
     const filterData = filter.filter((item) => {
       return item.discount_price > minValue;
     });
-    console.log(filterData);
-    console.log(checked);
   };
   return (
     <section className="mt-7 md:mt-32">
@@ -331,7 +328,7 @@ export default function Products({ data }) {
                             data={data}
                             image={el?.image}
                             attributes={el?.attributes}
-                            sub_attributes={el?.sub_attributes}
+                            subattributes={el?.subattributes}
                             status_ru={el?.status_ru}
                             status_en={el?.status_en}
                             status_uz={el?.status_uz}
@@ -351,7 +348,7 @@ export default function Products({ data }) {
                             data={data}
                             image={el?.image}
                             attributes={el?.attributes}
-                            sub_attributes={el?.sub_attributes}
+                            subattributes={el?.subattributes}
                             status_ru={el?.status_ru}
                             status_en={el?.status_en}
                             status_uz={el?.status_uz}

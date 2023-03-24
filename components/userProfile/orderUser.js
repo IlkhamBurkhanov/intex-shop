@@ -22,7 +22,6 @@ function OrderUser() {
     },
   ];
   const newdata = datafake.map((item, i) => item.orders);
-  console.log(newdata);
 
   return (
     <div>

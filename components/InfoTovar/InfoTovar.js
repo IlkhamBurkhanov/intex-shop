@@ -28,7 +28,6 @@ const InfoTovar = () => {
   //   https://intex-shop-production.up.railway.app/api/products?page=0&limit=100
   useEffect(() => {
     axios.get(`${env}products/getOne/12`).then((res) => {
-      console.log(res);
       setProduct(res?.data);
       // setLoader(false);
     });

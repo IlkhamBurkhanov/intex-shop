@@ -15,7 +15,7 @@ const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
 
 function Card({
-  sub_attributes,
+  subattributes,
   status_ru,
   status_en,
   status_uz,
@@ -220,10 +220,10 @@ function Card({
           </Link>
           <p
             className={`${
-              sub_attributes.length > 0 ? "" : "h-6"
+              subattributes.length > 0 ? "" : "h-6"
             } text-xs md:text-base m-0 mb-2 block leading-22 text-black-black_thin`}
           >
-            {sub_attributes[0]?.attribute_ru} {sub_attributes[4]?.attribute_ru}
+            {subattributes[0]?.attribute_ru} {subattributes[4]?.attribute_ru}
           </p>
           <span
             className={`text-xs md:text-sm block line-through text-gray-text_color ${
@@ -354,7 +354,7 @@ function Card({
                         : find.name_uz}
                     </h3>
                     <p className="space-x-3">
-                      {find.sub_attributes?.map((item) => (
+                      {find.subattributes?.map((item) => (
                         <span
                           key={item.id}
                           className="inline-block font-medium mt-1 text-sm text-black-black_thin"
