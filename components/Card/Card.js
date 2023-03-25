@@ -237,7 +237,7 @@ function Card({
                 (lang === "ru" ? " сум" : lang === "en" ? "soum" : "sum")}
           </span>
           <span className="font-semibold text-sm md:text-lg text-blue-accent block mb-2.5">
-            {price} {lang === "ru" ? " сум" : lang === "en" ? "soum" : "sum"}
+            {price} {lang === "ru" ? " сум" : lang === "en" ? "som" : "sum"}
           </span>
           <Button
             className={"text-sm md:text-base"}
