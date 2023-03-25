@@ -31,8 +31,13 @@ function Header() {
   // --- Get Categories
   useEffect(() => {
     axios
-      .get(`${env}categories/getAll?page=0&limit=10`)
-      .then((res) => setCategories(res?.data?.result));
+      .get(
+        `https://intex-shop-production.up.railway.app/api/categories/getCategories`
+      )
+      .then((res) => {
+        // console.log(res?.data);
+        setCategories(res?.data);
+      });
   }, []);
 
   function handleClickedFlag(evt) {

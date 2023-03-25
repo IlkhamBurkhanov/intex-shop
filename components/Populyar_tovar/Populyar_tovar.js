@@ -36,11 +36,15 @@ const Populyar_nov = ({ mobile }) => {
 
   // --- Get Product
   useEffect(() => {
-    axios.get(`${env}/products?current_page=0`).then((res) => {
-      console.log(res);
-      setTovar(res?.data?.result);
-      setLoader(false);
-    });
+    axios
+      .get(
+        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
+      )
+      .then((res) => {
+        console.log(res);
+        setTovar(res?.data?.result);
+        setLoader(false);
+      });
   }, []);
 
   console.log(tovar);
