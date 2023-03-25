@@ -12,7 +12,9 @@ import MultiRangeSlider from "../ComponetntModuls/MultiRange/MultiRange.js";
 const env = process.env.NEXT_PUBLIC_TOKEN;
 
 export default function Products({ data }) {
+  const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(false);
+
   const search = useSelector((state) => state.data.search);
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
@@ -24,7 +26,7 @@ export default function Products({ data }) {
   const [rotateEl, setRotateEl] = useState(false);
   const [menuCatOpen, setMenuCatOpen] = useState(false);
   const [sortBtn, setSortBtn] = useState(false);
-  const [filter, setFilter] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [checked, setChecked] = useState(0);
   const [checked2, setChecked2] = useState(0);
 
@@ -37,7 +39,9 @@ export default function Products({ data }) {
   useEffect(() => {
     setLoader(true);
     axios
-      .get(`${env}categories`)
+      .get(
+        `https://intex-shop-production.up.railway.app/api/categories/getCategories`
+      )
       .then((res) => setHeading(res?.data.find((el) => el.id == categoryId)))
       .catch((err) => console.error(err))
       .finally(() => setLoader(false));
@@ -57,21 +61,27 @@ export default function Products({ data }) {
     setRotateEl(!rotateEl);
   };
   useEffect(() => {
-    axios.get(`${env}products?page=0&limit=100`).then((res) => {
-      setFilter(res?.data?.result);
-      // setLoader(false);
-    });
-  }, []);
+    axios
+      .get(
+        `https://intex-shop-production.up.railway.app/api/products?limit=50&current_page=0&categories_id=${categoryId}`
+      )
+      .then((res) => {
+        setProducts(res?.data?.result);
+
+        setLoader(false);
+      });
+  }, [categoryId]);
 
   const handleClicked = () => {
     // Chckedboxs
     // const filterData = filter.filter((item) => {
     //   return checked && checked2 ? item.category_id === 1 && 2 : item;
     // });
-    const filterData = filter.filter((item) => {
+    const filterData = filters.filter((item) => {
       return item.discount_price > minValue;
     });
   };
+  console.log(categoryId);
   return (
     <section className="mt-7 md:mt-32">
       <div className="max-w-container mx-auto w-full px-5">
@@ -178,13 +188,13 @@ export default function Products({ data }) {
                 <div className=" col-span-1 mt-8 ">
                   <div className="shadow-card_shadow">
                     {" "}
-                    <div className="flex justify-between border-b-1 m-4 pb-4 ">
+                    <div className="flex justify-between border-b-1 p-4 ">
                       <h1 className=" font-bold text-lg">Фильтр</h1>
                       <p className="text-[#109EF4] font-bold text-sm">
                         Сбросить(11)
                       </p>
                     </div>
-                    <div className="mx-4 text-[#464A4D] border-b-1 pb-4">
+                    <div className="mx-4 text-[#464A4D] border-b-1 mt-4 pb-4">
                       <h2 className="font-bold text-lg">Категории</h2>
                       <label className="flex gap-2 mt-4">
                         <input
@@ -340,7 +350,7 @@ export default function Products({ data }) {
                           />
                         );
                       })
-                    : data.map((el) => {
+                    : products.map((el) => {
                         return (
                           <Card
                             key={el?.id}

@@ -37,10 +37,14 @@ const Sale_nov = ({ mobile }) => {
 
   // --- get Product
   useEffect(() => {
-    axios.get(`${env}/products?current_page=0&status_ids=2`).then((res) => {
-      setTovar(res?.data?.result);
-      setLoader(false);
-    });
+    axios
+      .get(
+        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=2`
+      )
+      .then((res) => {
+        setTovar(res?.data?.result);
+        setLoader(false);
+      });
   }, []);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
