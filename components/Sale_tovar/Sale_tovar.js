@@ -44,7 +44,8 @@ const Sale_nov = ({ mobile }) => {
       .then((res) => {
         setTovar(res?.data?.result);
         setLoader(false);
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
@@ -291,7 +292,7 @@ const Sale_nov = ({ mobile }) => {
                           onClick={() => ProductOrder(item.id)}
                         >
                           {lang === "ru"
-                            ? "Заказать"
+                            ? "В корзину"
                             : lang === "en"
                             ? "Order"
                             : "Buyurtma berish"}
@@ -575,7 +576,7 @@ const Sale_nov = ({ mobile }) => {
                   {loading ? (
                     <BtnLoader />
                   ) : lang === "ru" ? (
-                    "Заказать"
+                    "В корзину"
                   ) : lang === "en" ? (
                     "Order"
                   ) : (

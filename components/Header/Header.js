@@ -22,6 +22,7 @@ function Header() {
   const [flagImg, setFlagImg] = useState(
     "/Assets/Images/HeaderAndHeroImg/russia-flag.svg"
   );
+  const [savat, setSavat] = useState();
 
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
@@ -37,7 +38,8 @@ function Header() {
       .then((res) => {
         // console.log(res?.data);
         setCategories(res?.data);
-      });
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   function handleClickedFlag(evt) {
@@ -80,7 +82,10 @@ function Header() {
       }
     });
   }, []);
-
+  useEffect(() => {
+    setSavat(JSON.parse(window.localStorage.getItem("Savatcha")));
+  }, []);
+  console.log(savat?.length);
   return (
     <header id="header" className=" shadow-sm">
       <div className="bg-gray-bg_nav hidden md:block py-3 border-b-2">

@@ -69,7 +69,8 @@ export default function Products({ data }) {
         setProducts(res?.data?.result);
 
         setLoader(false);
-      });
+      })
+      .catch((err) => console.log(err));
   }, [categoryId]);
 
   const handleClicked = () => {

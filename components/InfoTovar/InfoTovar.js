@@ -16,6 +16,7 @@ import "swiper/css/scrollbar";
 
 // Import Swiper styles
 import "swiper/css";
+import { useSelector } from "react-redux";
 
 const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
@@ -23,15 +24,22 @@ const img = process.env.NEXT_PUBLIC_IMG;
 const InfoTovar = () => {
   const [product, setProduct] = useState([]);
   const [numberProduct, setNumberProduct] = useState(8);
+  const productId = useSelector((state) => state.data.productId);
 
   //intex-shop-production.up.railway.app/api/products/getOne/4
   //   https://intex-shop-production.up.railway.app/api/products?page=0&limit=100
   useEffect(() => {
-    axios.get(`${env}products/getOne/12`).then((res) => {
-      setProduct(res?.data);
-      // setLoader(false);
-    });
+    axios
+      .get(`${env}products/getOne/12`)
+      .then((res) => {
+        setProduct(res?.data);
+        // setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+  console.log(productId);
 
   const settings = {
     dots: true,

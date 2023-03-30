@@ -4,9 +4,11 @@ import Visible from "../../public/Assets/Images/LoginUser/Visible.png";
 import IsVisible from "../../public/Assets/Images/LoginUser/IsVisible.png";
 import { useState } from "react";
 import Link from "next/link";
+import { setTokenUser } from "../../redux/siteDataReducer";
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 const env = process.env.NEXT_PUBLIC_TOKEN;
 
 function LoginPage() {
@@ -17,22 +19,32 @@ function LoginPage() {
   const [password1, setPassword1] = useState("");
   const [register, setRegister] = useState(false);
   const [linked, setLinked] = useState("/login");
+  const [token, setToken] = useState(false);
+
+  const dispatch = useDispatch();
+
   const postRequest = async (e) => {
     e.preventDefault();
 
     // setLoading(true);
     axios
-      .post(`${env}auth/user/login`, {
-        phone: null,
-        email: email,
-        password: password,
-      })
-      .then((res) => {
-        if (res?.data?.token) {
-          setLinked("/userinfo");
-        } else if (res?.status === 201) {
-          console.log("Successfull sent!");
+      .post(
+        `https://intex-shop-production.up.railway.app/api/auth/user/login`,
+        {
+          email: email,
+          phone: null,
+          password: password,
         }
+      )
+      .then((res) => {
+        // if (res?.data?.token) {
+        //   setLinked("/userinfo");
+        // } else if (res?.status === 201) {
+        //   console.log("Successfull sent!");
+        dispatch(setTokenUser(res?.data?.token));
+        window.localStorage.setItem("token", JSON.stringify(res?.data?.token));
+        setLinked("/userprofil");
+        console.log("Success");
       })
       .catch((err) => {
         if (err?.response?.status === 401) {
@@ -49,7 +61,7 @@ function LoginPage() {
         setPassword("");
       });
   };
-
+  console.log(token);
   return (
     <div>
       <div className="flex flex-col justify-center items-center ">
@@ -165,7 +177,7 @@ function LoginPage() {
             <div>
               {" "}
               <label>
-                <h2 className="mt-5">Имя</h2>
+                <h2 className="mt-5">Электронная почта</h2>
                 <input
                   className="py-3  px-4 mt-3 border rounded-lg w-full outline-none"
                   placeholder="Введите ваше имя"
@@ -218,10 +230,14 @@ function LoginPage() {
 
           <button
             onClick={postRequest}
-            className=" text-lg py-2 mt-5 bg-[#2B3D90] rounded-lg text-white w-full"
+            className=" text-lg py-2 mt-5 bg-[#2B3D90] rounded-lg text-white
+              w-full"
           >
-            Войти
+            <Link href={`/userprofil`}>Войти</Link>
           </button>
+          <Link href={`/`}>
+            <button>hhhhhhhh</button>
+          </Link>
         </div>
       </div>
     </div>

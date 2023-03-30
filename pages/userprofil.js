@@ -9,12 +9,17 @@ import { useState } from "react";
 import AddinfoUser from "../components/userProfile/addinfoUser";
 import OrderUser from "../components/userProfile/orderUser";
 import AddresUser from "../components/userProfile/AddresUser";
+import { useSelector } from "react-redux";
 
 function UserProfile() {
   const [userInfo, setUserInfo] = useState(true);
   const [addInfo, setAddInfo] = useState(false);
   const [orderInfo, setOrderInfo] = useState(false);
   const [logOut, setLogOut] = useState(false);
+
+  const userToken = useSelector((state) => state.data.setToken);
+  console.log(userToken);
+
   const handleClick1 = () => {
     setUserInfo(true);
     setOrderInfo(false);

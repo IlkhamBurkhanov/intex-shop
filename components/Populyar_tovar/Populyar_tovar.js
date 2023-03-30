@@ -44,6 +44,9 @@ const Populyar_nov = ({ mobile }) => {
         console.log(res);
         setTovar(res?.data?.result);
         setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 
@@ -312,7 +315,7 @@ const Populyar_nov = ({ mobile }) => {
                           onClick={() => ProductOrder(item.id)}
                         >
                           {lang === "ru"
-                            ? "Заказать"
+                            ? "В корзину"
                             : lang === "en"
                             ? "Order"
                             : "Buyurtma berish"}
@@ -596,7 +599,7 @@ const Populyar_nov = ({ mobile }) => {
                   {loading ? (
                     <BtnLoader />
                   ) : lang === "ru" ? (
-                    "Заказать"
+                    "В корзину"
                   ) : lang === "en" ? (
                     "Order"
                   ) : (

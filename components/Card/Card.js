@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../ComponetntModuls/button/Button";
 import { Modal } from "../ComponetntModuls/Modal/Modal";
 import { BtnLoader } from "../Spinner/Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -35,6 +35,7 @@ function Card({
   const [find, setFind] = useState({});
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     AOS.init();
@@ -177,6 +178,9 @@ function Card({
     const fintProduct = data.find((e) => e.id === id);
     setFind(fintProduct);
   };
+  const handleClick = () => {
+    dispatch(setProductId(id));
+  };
 
   return (
     <>
@@ -213,7 +217,7 @@ function Card({
           />
         </div>
         <div className="p-2 md:p-4 border-t-lineColor border-t-1">
-          <Link href="infoProduct">
+          <Link href="infoProduct" onClick={handleClick}>
             <h3 className="text-black-text_color text-sm md:text-lg font-bold leading-5 mb-2 ">
               {lang === "ru" ? name_ru : lang === "en" ? name_en : name_uz}
             </h3>

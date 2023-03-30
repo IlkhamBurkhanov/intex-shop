@@ -15,7 +15,8 @@ export default function Home() {
       .get(
         `https://intex-shop-production.up.railway.app/api/products/getByCategory?category_id=${categoryId}&page=0&limit=10`
       )
-      .then((res) => setData(res.data.result));
+      .then((res) => setData(res.data.result))
+      .catch((e) => {});
   }, [categoryId]);
 
   return (

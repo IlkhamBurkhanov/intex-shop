@@ -34,6 +34,9 @@ const Basket = () => {
         setData(res?.data.result);
 
         // setTotalpage(res.data?.total_count.count);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [token]);
 
