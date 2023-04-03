@@ -23,17 +23,33 @@ import Image from "next/image";
 const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
 
+// const tokens = JSON.parse(window.localStorage.getItem("token"));
+
 const Tovar_nov = ({ mobile }) => {
   const [tovar, setTovar] = useState([]);
   const [find, setFind] = useState({});
   const [loader, setLoader] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
   const [numberProduct, setNumberProduct] = useState(1);
   const [modalContent, setModalContent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [tokens, setTokens] = useState("");
+  const [savatcha, setSavatcha] = useState([]);
 
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
+
+  const userToken = useSelector((state) => state.data.setToken);
+
+  // console.log(userToken);
+
+  useEffect(() => {
+    if (window.localStorage.getItem("token")) {
+      setTokens(JSON.parse(window.localStorage.getItem("token")));
+    }
+  }, []);
+  // console.log(tokens);
 
   useEffect(() => {
     axios
@@ -43,7 +59,9 @@ const Tovar_nov = ({ mobile }) => {
       .then((res) => {
         setTovar(res?.data?.result);
         setLoader(false);
-      });
+        // console.log(tokens);
+      })
+      .catch((e) => {});
   }, []);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
@@ -185,11 +203,14 @@ const Tovar_nov = ({ mobile }) => {
   });
 
   const ProductOrder = (id) => {
-    setShowModal(true);
+    setSavatcha([...savatcha, id]);
     const fintProduct = tovar.find((e) => e.id === id);
     setFind(fintProduct);
   };
-  console.log(tovar);
+  useEffect(() => {
+    window.localStorage.setItem("Savatcha", JSON.stringify(savatcha));
+  }, [savatcha]);
+  // console.log(tovar);
   return (
     <section
       id="noviy"
@@ -312,7 +333,7 @@ const Tovar_nov = ({ mobile }) => {
                           onClick={() => ProductOrder(item.id)}
                         >
                           {lang === "ru"
-                            ? "Заказать"
+                            ? "В корзину"
                             : lang === "en"
                             ? "Order"
                             : "Buyurtma berish"}
@@ -444,15 +465,15 @@ const Tovar_nov = ({ mobile }) => {
                       )}
                     </p>
                   </div>
-                  {/* <button type="button">
-                  <Image
-                    className="w-6 h-6"
-                    src={`/Assets/Images/ModalImg/closeWihite.svg`}
-                    width={24}
-                    height={24}
-                    alt="close_image"
-                  />
-                </button> */}
+                  <button type="button">
+                    <Image
+                      className="w-6 h-6"
+                      src={`/Assets/Images/ModalImg/closeWihite.svg`}
+                      width={24}
+                      height={24}
+                      alt="close_image"
+                    />
+                  </button>
                 </div>
                 <div className="flex items-center justify-between mt-2">
                   <div className="flex">
@@ -596,7 +617,7 @@ const Tovar_nov = ({ mobile }) => {
                   {loading ? (
                     <BtnLoader />
                   ) : lang === "ru" ? (
-                    "Заказать"
+                    "В корзину"
                   ) : lang === "en" ? (
                     "Order"
                   ) : (
@@ -607,6 +628,15 @@ const Tovar_nov = ({ mobile }) => {
             </form>
           </div>
         )}
+      </Modal>
+
+      <Modal
+        isVisible={showModal1}
+        onClose={() => {
+          setShowModal1(false);
+        }}
+      >
+        <div>Tokeeeeeeeeen</div>
       </Modal>
     </section>
   );

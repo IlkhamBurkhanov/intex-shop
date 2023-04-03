@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import LineSvg from "../../public/Assets/Images/LoginUser/line.svg";
 import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 function AddinfoUser() {
   const [days, setDays] = useState(false);
@@ -11,6 +13,68 @@ function AddinfoUser() {
   const [monthNum, setMonthNum] = useState("");
   const [yearNum, setYearNum] = useState("");
   const [edit, setEdit] = useState(true);
+  const [token, setToken] = useState(null);
+  const [product, setProduct] = useState([]);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  useEffect(() => {
+    setToken(JSON.parse(window.localStorage.getItem("token")));
+    console.log(token);
+    if (token) {
+      axios
+        .get("https://intex-shop-production.up.railway.app/api/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => {
+          setProduct(res?.data);
+          // setLoader(false);
+          console.log(token);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [token]);
+  console.log(token);
+  console.log(product);
+
+  const UpdateUser = () => {
+    axios
+      .post(
+        "https://intex-shop-production.up.railway.app/api/users",
+        {
+          first_name: firstName ? firstName : product[0].first_name,
+          last_name: lastName ? lastName : product[0].last_name,
+          password: product[0]?.password,
+          phone: phone ? phone : product[0].phone,
+          email: email ? email : product[0].email,
+          birth_date: "01/02/2002",
+          user_image: "string",
+          status: "registered",
+          gender: "male",
+          role: product[0]?.role,
+          is_active: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 201) {
+          console.log(res);
+          setEdit(!edit);
+        }
+      })
+      .catch((err) => err);
+  };
+
   const handleClick1 = () => {
     setDays(!days);
   };
@@ -25,7 +89,7 @@ function AddinfoUser() {
   };
   return (
     <div>
-      {edit ? (
+      {!edit ? (
         <div className="flex  border rounded-lg flex-col py-[30px] px-7">
           <div>
             <h1 className="text-[22px]">Персональная информация</h1>
@@ -41,6 +105,8 @@ function AddinfoUser() {
                 placeholder="Введите ваше имя"
                 type="text"
                 className="p-4 w-full border mt-3 rounded-lg"
+                defaultValue={product[0]?.first_name}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </label>
             <label className="w-full">
@@ -49,6 +115,8 @@ function AddinfoUser() {
                 placeholder="Введите ваше фамилия"
                 type="text"
                 className="p-4 w-full border mt-3 rounded-lg"
+                defaultValue={product[0]?.last_name}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </label>
             <label className="w-full">
@@ -57,6 +125,8 @@ function AddinfoUser() {
                 placeholder="Введите Телефонный номер"
                 type="text"
                 className="p-4 w-full border mt-3 rounded-lg"
+                defaultValue={product[0]?.phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </label>
             <label className="w-full">
@@ -67,6 +137,8 @@ function AddinfoUser() {
                 placeholder="Адрес электронной почты"
                 type="text"
                 className="p-4 w-full border mt-3 rounded-lg"
+                defaultValue={product[0]?.email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </label>
           </div>
@@ -228,7 +300,7 @@ function AddinfoUser() {
             </div>
           </div>
           <button
-            onClick={closeEdit}
+            onClick={UpdateUser}
             className=" bg-[#2B3D90] py-3 px-[52px] w-[200px] rounded-xl text-white mt-5 mx-auto"
           >
             Сохранить{" "}
@@ -249,25 +321,30 @@ function AddinfoUser() {
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Ваше имя</p>
-            <h2 className="text-[#000000de] font-500">Rustam</h2>
-          </div>
-          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
-            <p className=" text-[#666666]">Ваше фамилия</p>
-            <h2 className="text-[#000000de] font-500">Samandarov</h2>
-          </div>
-          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
-            <p className=" text-[#666666]">Телефонный номер</p>
-            <h2 className="text-[#000000de] font-500">+998 99 999 99 99</h2>
-          </div>
-          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
-            <p className=" text-[#666666]">Адрес электронной почты</p>
             <h2 className="text-[#000000de] font-500">
-              Tashkent, Chilanzar 19-7-10
+              {product[0]?.first_name}
             </h2>
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
+            <p className=" text-[#666666]">Ваше фамилия</p>
+            <h2 className="text-[#000000de] font-500">
+              {" "}
+              {product[0]?.last_name}
+            </h2>
+          </div>
+          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
+            <p className=" text-[#666666]">Телефонный номер</p>
+            <h2 className="text-[#000000de] font-500">{product[0]?.phone}</h2>
+          </div>
+          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
+            <p className=" text-[#666666]">Адрес электронной почты</p>
+            <h2 className="text-[#000000de] font-500">{product[0]?.email}</h2>
+          </div>
+          <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Дата рождение</p>
-            <h2 className="text-[#000000de] font-500">1999/01/01</h2>
+            <h2 className="text-[#000000de] font-500">
+              {product[0]?.birth_date ? product[0]?.birth_date : "--/--"}
+            </h2>
           </div>
         </div>
       )}

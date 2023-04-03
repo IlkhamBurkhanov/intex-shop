@@ -28,6 +28,9 @@ const Footer = () => {
         setSite(values[0]?.data);
         setInfo(values[1]?.data);
       })
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         setLoader(false);
       });

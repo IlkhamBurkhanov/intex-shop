@@ -13,9 +13,10 @@ export default function Home() {
   useEffect(() => {
     axios
       .get(
-        `https://intex-shop-production.up.railway.app/api/products/getByCategory?category_id=${categoryId}&page=0&limit=10`
+        `https://intex-shop-production.up.railway.app/api/products?current_page=1`
       )
-      .then((res) => setData(res.data.result));
+      .then((res) => setData(res.data.result))
+      .catch((e) => {});
   }, [categoryId]);
 
   return (

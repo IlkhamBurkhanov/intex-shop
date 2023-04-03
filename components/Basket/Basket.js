@@ -2,14 +2,11 @@ import React from "react";
 import Image from "next/image";
 import fakeData from "../../public/Assets/Images/HeaderAndHeroImg/Fakedata.png";
 import Trash from "../../public/Assets/Images/HeaderAndHeroImg/trash.svg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import SimilarProducts from "../Similat_ptoducts/similar";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzbW9taW1qb25vdjIwQGdtYWlsLmNvbSIsInBob25lIjoiKzk5OTk0NjI0MDcxMiIsInJvbGUiOiJzdXBlcl9hZG1pbiIsImltYWdlIjpudWxsLCJ1c2VybmFtZSI6IlNhcnZhck1vJ21pbmpvbm92IiwiaWF0IjoxNjc4Njk4MzE1LCJleHAiOjE2Nzg3MDU1MTV9.2-9Ne6KpYdM7RKiZ-uAkBI69nousJYPI2ju-8ViN4WI";
 
 const Basket = () => {
   const [numberProduct, setNumberProduct] = useState(8);
@@ -18,9 +15,14 @@ const Basket = () => {
   const languages = useSelector((state) => state.data.localization);
   const categoryId = useSelector((state) => state.data.categoryId);
   const [data, setData] = useState([]);
+  const [token, setToken] = useState("");
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setToken(JSON.parse(window.localStorage.getItem("token")));
+  }, []);
+
+  useEffect(() => {
     axios
       .get(
         "https://intex-shop-production.up.railway.app/api/users/profile/orders",
@@ -31,9 +33,12 @@ const Basket = () => {
         }
       )
       .then((res) => {
-        setData(res?.data.result);
+        setData(res?.data);
 
         // setTotalpage(res.data?.total_count.count);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, [token]);
 
@@ -53,10 +58,10 @@ const Basket = () => {
       count: 1,
     },
   ];
-
+  console.log(data);
   return (
     <>
-      {data ? (
+      {!data ? (
         <div className=" text-center mx-auto mt-56 w-[628px]">
           <div className="flex flex-col">
             <Image
@@ -104,8 +109,12 @@ const Basket = () => {
               <div className="col-span-2">
                 {fakeDatas?.map((item, intex) => {
                   return (
-                    <div className=" flex border-b-1 mt-8">
-                      <Image className="w-[100px] h-[94px]" src={item.img} />
+                    <div key={intex} className=" flex border-b-1 mt-8">
+                      <Image
+                        className="w-[100px] h-[94px]"
+                        src={item.img}
+                        alt="IMG"
+                      />
                       <div className="flex flex-col ml-6">
                         <h2 className=" font-[550] text-lg">{item.name}</h2>
                         <p className="mt-2 text-sm">{item.size}</p>

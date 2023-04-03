@@ -69,7 +69,8 @@ export default function Products({ data }) {
         setProducts(res?.data?.result);
 
         setLoader(false);
-      });
+      })
+      .catch((err) => console.log(err));
   }, [categoryId]);
 
   const handleClicked = () => {
@@ -81,7 +82,7 @@ export default function Products({ data }) {
       return item.discount_price > minValue;
     });
   };
-  console.log(categoryId);
+  // console.log(categoryId);
   return (
     <section className="mt-7 md:mt-32">
       <div className="max-w-container mx-auto w-full px-5">
