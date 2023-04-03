@@ -26,6 +26,13 @@ function Header() {
 
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
+  const [golink, setGoLink] = useState("laa");
+
+  useEffect(() => {
+    const tokens = JSON.parse(window.localStorage.getItem("token"));
+    console.log(tokens);
+    setGoLink(tokens ? "userprofil" : "login");
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -85,7 +92,8 @@ function Header() {
   useEffect(() => {
     setSavat(JSON.parse(window.localStorage.getItem("Savatcha")));
   }, []);
-  console.log(savat?.length);
+  // console.log(savat?.length);
+  console.log(golink);
   return (
     <header id="header" className=" shadow-sm">
       <div className="bg-gray-bg_nav hidden md:block py-3 border-b-2">
@@ -217,11 +225,18 @@ function Header() {
                 aria-label="Enter your searching"
                 onChange={handleChange}
               />
-              <button className="bg-white z-50 hidden md:flex ml-5 w-11 h-11   items-center justify-center cursor-pointer rounded-xl">
+              <button className="bg-white z-50 hidden md:flex ml-5 w-11 h-11 relative  items-center justify-center cursor-pointer rounded-xl">
                 <Link href="/_basket">
+                  {savat?.length === 0 ? null : (
+                    <div className=" bg-[#2B3D90] rounded-xl  z-20 ml-3 absolute w-4 h-4">
+                      <h2 className=" text-center text-white  text-[8px] mt-0.5">
+                        {savat?.length === 0 ? null : savat?.length}
+                      </h2>
+                    </div>
+                  )}
                   <Image
                     priority={true}
-                    className="w-6 h-6"
+                    className="w-6 h-6 z-10"
                     src={"/Assets/Images/HeaderAndHeroImg/block-img.svg"}
                     width={24}
                     height={24}
@@ -230,7 +245,7 @@ function Header() {
                 </Link>
               </button>
               <button className="bg-white z-50 hidden md:flex ml-5 w-11 h-11   items-center justify-center cursor-pointer rounded-xl">
-                <Link href="/login">
+                <Link href={golink}>
                   <Image
                     priority={true}
                     className="w-6 h-6"

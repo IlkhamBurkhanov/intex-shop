@@ -42,14 +42,14 @@ const Tovar_nov = ({ mobile }) => {
 
   const userToken = useSelector((state) => state.data.setToken);
 
-  console.log(userToken);
+  // console.log(userToken);
 
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
       setTokens(JSON.parse(window.localStorage.getItem("token")));
     }
   }, []);
-  console.log(tokens);
+  // console.log(tokens);
 
   useEffect(() => {
     axios
@@ -59,7 +59,7 @@ const Tovar_nov = ({ mobile }) => {
       .then((res) => {
         setTovar(res?.data?.result);
         setLoader(false);
-        console.log(tokens);
+        // console.log(tokens);
       })
       .catch((e) => {});
   }, []);

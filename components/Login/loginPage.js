@@ -9,6 +9,7 @@ import { setTokenUser } from "../../redux/siteDataReducer";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 const env = process.env.NEXT_PUBLIC_TOKEN;
 
 function LoginPage() {
@@ -20,6 +21,8 @@ function LoginPage() {
   const [register, setRegister] = useState(false);
   const [linked, setLinked] = useState("/login");
   const [token, setToken] = useState(false);
+
+  const router = useRouter();
 
   const dispatch = useDispatch();
 
@@ -41,10 +44,11 @@ function LoginPage() {
         //   setLinked("/userinfo");
         // } else if (res?.status === 201) {
         //   console.log("Successfull sent!");
-        dispatch(setTokenUser(res?.data?.token));
+        // dispatch(setTokenUser(res?.data?.token));
         window.localStorage.setItem("token", JSON.stringify(res?.data?.token));
         setLinked("/userprofil");
         console.log("Success");
+        router.push("/userprofil");
       })
       .catch((err) => {
         if (err?.response?.status === 401) {
@@ -62,6 +66,9 @@ function LoginPage() {
       });
   };
   console.log(token);
+  const handlee = () => {
+    router.push("/new-route");
+  };
   return (
     <div>
       <div className="flex flex-col justify-center items-center ">
@@ -88,6 +95,7 @@ function LoginPage() {
               Регистрация
             </button>
           </div>
+
           {register ? (
             <div>
               <label>
@@ -233,13 +241,11 @@ function LoginPage() {
             className=" text-lg py-2 mt-5 bg-[#2B3D90] rounded-lg text-white
               w-full"
           >
-            <Link href={`/userprofil`}>Войти</Link>
+            <Link href={linked}>Войти</Link>
           </button>
-          <Link href={`/`}>
-            <button>hhhhhhhh</button>
-          </Link>
         </div>
       </div>
+      <div onClick={handlee}>Valisherr</div>
     </div>
   );
 }

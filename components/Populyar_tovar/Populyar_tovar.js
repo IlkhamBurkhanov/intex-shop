@@ -41,7 +41,7 @@ const Populyar_nov = ({ mobile }) => {
         `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setTovar(res?.data?.result);
         setLoader(false);
       })
@@ -50,7 +50,7 @@ const Populyar_nov = ({ mobile }) => {
       });
   }, []);
 
-  console.log(tovar);
+  // console.log(tovar);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
   let chatId = "636476536";

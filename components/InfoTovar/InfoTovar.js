@@ -39,7 +39,7 @@ const InfoTovar = () => {
         console.log(err);
       });
   }, []);
-  console.log(productId);
+  // console.log(productId);
 
   const settings = {
     dots: true,

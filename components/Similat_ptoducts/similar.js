@@ -36,7 +36,7 @@ const SimilarProducts = ({ mobile }) => {
   // --- Get Product
   useEffect(() => {
     axios
-      .get(`${env}products/getByCategory?category_id=1&page=0&limit=20`)
+      .get(`${env}products?current_page=1&categories_id=1`)
       .then((res) => {
         setTovar(res?.data?.result);
         setLoader(false);
@@ -394,7 +394,7 @@ const SimilarProducts = ({ mobile }) => {
                     src={`/Assets/Images/ModalImg/close.svg`}
                     width={25}
                     height={25}
-                    alt={"close_image"}
+                    alt="close_image"
                   />
                 </button>
               </div>

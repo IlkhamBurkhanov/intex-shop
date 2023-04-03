@@ -66,13 +66,13 @@ function Order() {
             <h2 className="font-500 text-lg mt-1">2. Выберите способ оплаты</h2>
             <div className="flex justify-between mt-5 gap-7">
               <button className="flex justify-center items-center w-full border rounded-md h-14  hover:bg-[#605dec14]">
-                <Image src={Money} /> Наличными
+                <Image src={Money} alt="-" /> Наличными
               </button>
               <button className="flex justify-center items-center w-full border rounded-md h-14  hover:bg-[#605dec14]">
-                <Image src={UzCard} /> Uzcard/Humo
+                <Image src={UzCard} alt="-" /> Uzcard/Humo
               </button>
               <button className=" flex justify-center items-center w-full border rounded-md h-14  hover:bg-[#605dec14]">
-                <Image src={UzCard} /> Payme/Click
+                <Image src={UzCard} alt="-" /> Payme/Click
               </button>
             </div>
             <h3 className="font-500 text-lg mt-7">3. Ваши детали доставки</h3>
