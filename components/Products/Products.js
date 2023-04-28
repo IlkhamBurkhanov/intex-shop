@@ -83,6 +83,10 @@ export default function Products({ data }) {
     });
   };
   // console.log(categoryId);
+
+  // https://intex-shop-production.up.railway.app/api/products?current_page=1  Get All Products
+  //
+
   return (
     <section className="mt-7 md:mt-32">
       <div className="max-w-container mx-auto w-full px-5">

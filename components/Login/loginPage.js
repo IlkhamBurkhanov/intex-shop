@@ -245,7 +245,6 @@ function LoginPage() {
           </button>
         </div>
       </div>
-      <div onClick={handlee}>Valisherr</div>
     </div>
   );
 }

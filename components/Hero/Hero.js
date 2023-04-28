@@ -8,7 +8,7 @@ function Hero() {
   const languages = useSelector((state) => state.data.localization);
 
   return (
-    <section className="mt-7 sm:mt-12 md:mt-32 mb-heroBottomMobile md:mb-heroBottom">
+    <section className="mt-7 sm:mt-12 md:mt-32 ">
       <div className="w-full max-w-container mx-auto px-4">
         <div className="bg-gray-bg_main  rounded-3xl flex-col lg:flex-row flex lg:items-center justify-between">
           <div className="w-full max-w-container mx-auto">
