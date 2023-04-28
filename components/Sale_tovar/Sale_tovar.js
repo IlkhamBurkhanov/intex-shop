@@ -19,11 +19,12 @@ import "swiper/css/navigation";
 // import required modules
 import Image from "next/image";
 import Heart from "../../public/Assets/Images/ModalImg/heart.svg";
+import Card from "../Card/Card";
 
 const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
 
-const Sale_nov = ({ mobile }) => {
+const Sale_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   const [tovar, setTovar] = useState([]);
   const [find, setFind] = useState({});
   const [loader, setLoader] = useState(true);
@@ -195,7 +196,7 @@ const Sale_nov = ({ mobile }) => {
   return (
     <section
       id="skidka"
-      className="max-w-[1210px] mx-auto bg-white pl-[16px] md:pl-0"
+      className="max-w-[1210px] mx-auto bg-white pl-[16px] md:pl-0 pt-10 lg:pt-40"
     >
       <h2 className="font-bold text-xl md:text-32 leading-36 pl-0 md:pl-3">
         {" "}
@@ -227,88 +228,31 @@ const Sale_nov = ({ mobile }) => {
               <Spinner />
             </div>
           ) : (
-            tovar.map((item) => {
-              return (
-                <SwiperSlide key={item?.id}>
-                  <div className="card rounded-xl w-resCardWidth md:w-cardWidth shadow-card_shadow relative border border-lineColor mx-auto">
-                    <span
-                      className={`${"bg-red-sale"} text-sm block z-20  w-111 text-center py-5.5 rounded-r-lg text-white absolute top-4 left-0`}
-                    >
-                      {item.status_ru === "Обичный"
-                        ? ""
-                        : lang === "ru"
-                        ? item.status_ru
-                        : lang === "en"
-                        ? item.status_en
-                        : item.status_uz}
-                    </span>
-                    <Image
-                      onDragStart={(e) => e.preventDefault()}
-                      className="mt-2 mb-1 md:mb-4"
-                      src={`${img}${item.image[0]}`}
-                      alt="baseen_product_image"
-                      width={280}
-                      height={220}
-                    />
-                    <div className="p-2 md:p-4 border-t-lineColor border-t-1">
-                      <h3 className="text-sm md:text-lg font-bold leading-5 mb-2 ">
-                        {lang === "ru"
-                          ? item.name_ru
-                          : lang === "en"
-                          ? item.name_en
-                          : item.name_uz}
-                      </h3>
-                      <span
-                        className={`${
-                          item.subattributes.length > 0 ? "" : "h-6"
-                        } text-xs md:text-base m-0 mb-2 block leading-22 text-black-black_thin`}
-                      >
-                        {item.subattributes[0]?.attribute_ru}{" "}
-                        {lang === "ru"
-                          ? item.subattributes[4]?.attribute_ru
-                          : lang === "en"
-                          ? item.subattributes[4]?.attribute_en
-                          : item.subattributes[4]?.attribute_uz}
-                      </span>
-                      <span className="text-xs text-gray-text_color md:text-sm block line-through">
-                        {item.discount_price}{" "}
-                        {lang === "ru"
-                          ? " сум"
-                          : lang === "en"
-                          ? "soum"
-                          : "sum"}
-                      </span>
-                      <span className="font-bold text-sm md:text-lg block mb-2.5 text-blue-accent">
-                        {item.price}{" "}
-                        {lang === "ru"
-                          ? " сум"
-                          : lang === "en"
-                          ? "soum"
-                          : "sum"}
-                      </span>
-                      <div className=" grid grid-cols-4 gap-3">
-                        <Button
-                          className={"text-sm md:text-base col-span-3"}
-                          onClick={() => ProductOrder(item.id)}
-                        >
-                          {lang === "ru"
-                            ? "В корзину"
-                            : lang === "en"
-                            ? "Order"
-                            : "Buyurtma berish"}
-                        </Button>
-                        <Button
-                          className={"text-sm md:text-base bg-[#109EF4] "}
-                          onClick={() => console.log("Heart Cliked")}
-                        >
-                          <Image src={Heart} alt="Heart" className="mx-auto" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })
+            <div className="flex gap-5">
+              {product.map((el) => {
+                return (
+                  <Card
+                    key={el?.id}
+                    id={el?.id}
+                    image={el?.image}
+                    attributes={el?.attributes}
+                    subattributes={el?.subattributes}
+                    status_ru={el?.status_ru}
+                    status_en={el?.status_en}
+                    status_uz={el?.status_uz}
+                    name_ru={el?.name_ru}
+                    name_en={el?.name_en}
+                    name_uz={el?.name_uz}
+                    price={el?.price}
+                    sale={el?.discount_price}
+                    product={el}
+                    onAdd={onAdd}
+                    onRemove={onRemove}
+                    items={cartItems.find((x) => x.id === el.id)}
+                  />
+                );
+              })}
+            </div>
           )}
         </Swiper>
       </div>

@@ -14,7 +14,7 @@ function AboutUs() {
   const languages = useSelector((state) => state.data.localization);
 
   return (
-    <section id="pochemu" className="my-10 lg:my-40 mb-20">
+    <section id="pochemu" className="mt-10 lg:mt-40 ">
       <div className="max-w-[1220px] mx-auto px-4">
         <h2 className="text-black text-lg sm:text-3xl font-bold mb-10">
           {languages[lang].choose_us.header}
