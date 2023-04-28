@@ -132,7 +132,7 @@ const InfoTovar = () => {
               {product
                 ? product[0]?.image.map((item, i) => {
                     return (
-                      <SwiperSlide className="mt-2.5">
+                      <SwiperSlide key={i} className="mt-2.5">
                         {" "}
                         <Image
                           key={i}
@@ -140,6 +140,7 @@ const InfoTovar = () => {
                           src={`${img}${item}`}
                           width={80}
                           height={66}
+                          alt={"IMG"}
                         />
                       </SwiperSlide>
                     );
