@@ -13,6 +13,7 @@ const env = process.env.NEXT_PUBLIC_TOKEN;
 
 function Header() {
   const [openLang, setOpenLang] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
   const [menuLang, setMenuLang] = useState(false);
   const [clickMenu, setClickMenu] = useState(false);
   const [menuCatOpen, setMenuCatOpen] = useState(false);
@@ -22,7 +23,7 @@ function Header() {
   const [flagImg, setFlagImg] = useState(
     "/Assets/Images/HeaderAndHeroImg/russia-flag.svg"
   );
-  const [savat, setSavat] = useState();
+  const [savat, setSavat] = useState([]);
 
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
@@ -35,6 +36,7 @@ function Header() {
   }, []);
 
   const dispatch = useDispatch();
+  const token = false;
 
   // --- Get Categories
   useEffect(() => {
@@ -90,13 +92,13 @@ function Header() {
     });
   }, []);
   useEffect(() => {
-    setSavat(JSON.parse(window.localStorage.getItem("Savatcha")));
+    setSavat(JSON.parse(window.localStorage.getItem("cartItems")));
   }, []);
   // console.log(savat?.length);
-  console.log(golink);
+
   return (
     <header id="header" className=" shadow-sm">
-      <div className="bg-gray-bg_nav hidden md:block py-3 border-b-2">
+      <div className="bg-gray-bg_nav  hidden md:block py-3 border-b-2">
         <div className="w-full max-w-container mx-auto px-4">
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-text font-medium">
@@ -131,8 +133,9 @@ function Header() {
           </div>
         </div>
       </div>
+
       <div
-        className={`bg-gray-bg_nav z-50 md:fixed w-full ${
+        className={`bg-gray-bg_nav z-50 md:fixed   w-full ${
           fixedBar ? "top-0 transition-all" : "top-15 duration-500"
         } border-b-2 md:border-none`}
       >
@@ -230,7 +233,7 @@ function Header() {
                   {savat?.length === 0 ? null : (
                     <div className=" bg-[#2B3D90] rounded-xl  z-20 ml-3 absolute w-4 h-4">
                       <h2 className=" text-center text-white  text-[8px] mt-0.5">
-                        {savat?.length === 0 ? null : savat?.length}
+                        {savat?.length}
                       </h2>
                     </div>
                   )}
@@ -244,18 +247,88 @@ function Header() {
                   />
                 </Link>
               </button>
-              <button className="bg-white z-50 hidden md:flex ml-5 w-11 h-11   items-center justify-center cursor-pointer rounded-xl">
-                <Link href={golink}>
+              <div className="relative ">
+                <div
+                  onClick={() => setOpenUser(!openUser)}
+                  className="bg-white relative z-50 h-11 w-11 md:flex  language-wrap hidden cursor-pointer sm:flex ml-5 items-center justify-between  rounded-xl"
+                >
                   <Image
                     priority={true}
-                    className="w-6 h-6"
+                    className=" w-6 h-6 mx-auto"
                     src={"/Assets/Images/HeaderAndHeroImg/user.svg"}
-                    width={24}
-                    height={24}
-                    alt="Blog Img"
+                    width={28}
+                    height={20}
+                    alt="Flag Russia"
                   />
-                </Link>
-              </button>
+                </div>
+                {token ? (
+                  <ul
+                    className={`${
+                      openUser
+                        ? "translate-y-0.5 opacity-1 h-auto"
+                        : "-translate-y-16 opacity-0 h-2 overflow-hidden "
+                    } duration-300 absolute cursor-pointer shadow-lg mt-3 text-sm rounded-md right-0 w-[180px] bg-white flex flex-col`}
+                  >
+                    <Link href={"/userprofil"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pt-3 pl-3 pr-4 pb-1 items-center justify-end text-sm"
+                      >
+                        Rustam Samandarov
+                      </li>
+                    </Link>
+                    <Link href={"/login"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pt-1 pl-3 pr-4 pb-1 items-center justify-end"
+                      >
+                        Учетная запись
+                      </li>
+                    </Link>
+                    <Link href={"/login"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pl-3 pt-1.5  items-center justify-end"
+                      >
+                        Заказы
+                      </li>
+                    </Link>
+                    <Link href={"/login"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pl-3 pt-1.5 pb-3 items-center justify-end"
+                      >
+                        Выйти
+                      </li>
+                    </Link>
+                  </ul>
+                ) : (
+                  <ul
+                    className={`${
+                      openUser
+                        ? "translate-y-0.5 opacity-1 h-auto"
+                        : "-translate-y-16 opacity-0 h-2 overflow-hidden "
+                    } duration-300 absolute cursor-pointer shadow-lg mt-3 rounded-md right-0 w-[144px] bg-white flex flex-col`}
+                  >
+                    <Link href={"/login"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pt-3 pl-3 pr-4  items-center justify-end"
+                      >
+                        Войти
+                      </li>
+                    </Link>
+                    <Link href={"/login"}>
+                      <li
+                        onClick={() => setOpenUser(!openUser)}
+                        className="pl-3 pt-1 pb-3 items-center justify-end"
+                      >
+                        Регистрация
+                      </li>
+                    </Link>
+                  </ul>
+                )}
+              </div>
 
               <a className="flex sm:hidden z-50" href="tel:+998901288182">
                 <Image

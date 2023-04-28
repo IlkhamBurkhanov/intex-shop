@@ -15,6 +15,9 @@ function AddinfoUser() {
   const [edit, setEdit] = useState(true);
   const [token, setToken] = useState(null);
   const [product, setProduct] = useState([]);
+  const [male, setMale] = useState(true);
+
+  const [getInfo, setGetInfo] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,7 +25,6 @@ function AddinfoUser() {
   const [email, setEmail] = useState("");
   useEffect(() => {
     setToken(JSON.parse(window.localStorage.getItem("token")));
-    console.log(token);
     if (token) {
       axios
         .get("https://intex-shop-production.up.railway.app/api/users/profile", {
@@ -33,33 +35,35 @@ function AddinfoUser() {
         .then((res) => {
           setProduct(res?.data);
           // setLoader(false);
-          console.log(token);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [token]);
-  console.log(token);
-  console.log(product);
+  }, [token, getInfo]);
+  console.log(product, "HET");
 
+  console.log(dayNum, yearNum, "HAAAY");
+  // console.log(getMonthNumber(monthNum));
   const UpdateUser = () => {
     axios
-      .post(
+      .put(
         "https://intex-shop-production.up.railway.app/api/users",
         {
-          first_name: firstName ? firstName : product[0].first_name,
-          last_name: lastName ? lastName : product[0].last_name,
-          password: product[0]?.password,
-          phone: phone ? phone : product[0].phone,
-          email: email ? email : product[0].email,
+          first_name: firstName ? firstName : product?.first_name,
+          last_name: lastName ? lastName : product?.last_name,
+          password: "123789",
+          phone: phone ? phone : product?.phone,
+          email: email ? email : product?.email,
           birth_date: "01/02/2002",
           user_image: "string",
           status: "registered",
           gender: "male",
-          role: product[0]?.role,
+          role: product?.role,
           is_active: true,
+          id: product?.id,
         },
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -70,6 +74,7 @@ function AddinfoUser() {
         if (res.status === 201) {
           console.log(res);
           setEdit(!edit);
+          setGetInfo(!getInfo);
         }
       })
       .catch((err) => err);
@@ -91,21 +96,21 @@ function AddinfoUser() {
     <div>
       {!edit ? (
         <div className="flex  border rounded-lg flex-col py-[30px] px-7">
-          <div>
+          <form>
             <h1 className="text-[22px]">Персональная информация</h1>
             <p className=" text-[#00000080]">
               Вы можете обновить свою учетную запись в любое время и внести
               любые изменения в данные ниже.
             </p>
-          </div>
+          </form>
           <div className="mt-5 grid grid-cols-2 gap-8">
             <label className="w-full">
               <h2 className="text-[#24283A] font-500">Ваше имя</h2>
               <input
                 placeholder="Введите ваше имя"
                 type="text"
-                className="p-4 w-full border mt-3 rounded-lg"
-                defaultValue={product[0]?.first_name}
+                className="p-4 w-full border mt-3 rounded-lg outline-none"
+                defaultValue={product?.first_name}
                 onChange={(e) => setFirstName(e.target.value)}
               />
             </label>
@@ -114,8 +119,8 @@ function AddinfoUser() {
               <input
                 placeholder="Введите ваше фамилия"
                 type="text"
-                className="p-4 w-full border mt-3 rounded-lg"
-                defaultValue={product[0]?.last_name}
+                className="p-4 w-full border mt-3 rounded-lg outline-none"
+                defaultValue={product?.last_name}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </label>
@@ -124,8 +129,8 @@ function AddinfoUser() {
               <input
                 placeholder="Введите Телефонный номер"
                 type="text"
-                className="p-4 w-full border mt-3 rounded-lg"
-                defaultValue={product[0]?.phone}
+                className="p-4 w-full border mt-3 rounded-lg outline-none"
+                defaultValue={product?.phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
             </label>
@@ -136,8 +141,8 @@ function AddinfoUser() {
               <input
                 placeholder="Адрес электронной почты"
                 type="text"
-                className="p-4 w-full border mt-3 rounded-lg"
-                defaultValue={product[0]?.email}
+                className="p-4 w-full border mt-3 rounded-lg outline-none"
+                defaultValue={product?.email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </label>
@@ -146,7 +151,7 @@ function AddinfoUser() {
             <h2 className="text-[#24283A] font-500">Дата рождение</h2>
             <div className="flex gap-5">
               <label
-                onClick={handleClick1}
+                // onClick={handleClick1}
                 className="border flex mt-3 justify-between items-center w-[100px] pr-4 rounded-md"
               >
                 <input
@@ -154,10 +159,10 @@ function AddinfoUser() {
                   type="number"
                   className="py-3 rounded-lg px-2.5 w-full outline-none"
                   onChange={(e) => setDayNum(e.target.value)}
+                  onClick={() => handleClick1()}
                 />
                 <Image
                   priority={true}
-                  onClick={handleClick2}
                   className={`${
                     days
                       ? "-rotate-180 duration-300"
@@ -205,19 +210,16 @@ function AddinfoUser() {
                   </div>
                 ) : null}
               </label>
-              <label
-                onClick={handleClick2}
-                className="border flex mt-3 justify-between items-center w-[210px] pr-4 rounded-md"
-              >
+              <label className="border flex mt-3 justify-between items-center w-[210px] pr-4 rounded-md">
                 <input
                   value={monthNum}
                   type="text"
                   className="py-3 px-2.5 w-full outline-none"
                   onChange={(e) => setMonthNum(e.target.value)}
+                  onClick={() => handleClick2()}
                 />
                 <Image
                   priority={true}
-                  onClick={handleClick2}
                   className={`${
                     month
                       ? "-rotate-180 duration-300"
@@ -242,19 +244,16 @@ function AddinfoUser() {
                   </div>
                 ) : null}
               </label>
-              <label
-                onClick={handleClick3}
-                className="border flex mt-3 justify-between items-center w-[140px] pr-4 rounded-md"
-              >
+              <label className="border flex mt-3 justify-between items-center w-[140px] pr-4 rounded-md">
                 <input
                   value={yearNum}
                   type="text"
                   className="py-3 px-2.5 w-full outline-none"
                   onChange={(e) => setYearNum(e.target.value)}
+                  onClick={() => handleClick3()}
                 />
                 <Image
                   priority={true}
-                  onClick={handleClick3}
                   className={`${
                     year
                       ? "-rotate-180 duration-300"
@@ -289,12 +288,22 @@ function AddinfoUser() {
             </h1>
             <div className="mt-5 flex gap-5">
               <label className="flex gap-2.5 items-center">
-                <input className="w-[18px] h-[18px] " type="checkbox" />
+                <input
+                  className="w-[18px] h-[18px] "
+                  type="checkbox"
+                  onChange={() => setMale(!male)}
+                  checked={male}
+                />
                 <p className="text-lg text-[#000000a6]">Мужчина</p>
               </label>
               <Image src={LineSvg} alt="|" />
               <label className="flex gap-2.5 items-center">
-                <input className="w-[18px] h-[18px] " type="checkbox" />
+                <input
+                  className="w-[18px] h-[18px] "
+                  type="checkbox"
+                  onChange={() => setMale(!male)}
+                  checked={!male}
+                />
                 <p className="text-lg text-[#000000a6]">Женщина</p>
               </label>
             </div>
@@ -321,29 +330,24 @@ function AddinfoUser() {
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Ваше имя</p>
-            <h2 className="text-[#000000de] font-500">
-              {product[0]?.first_name}
-            </h2>
+            <h2 className="text-[#000000de] font-500">{product?.first_name}</h2>
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Ваше фамилия</p>
-            <h2 className="text-[#000000de] font-500">
-              {" "}
-              {product[0]?.last_name}
-            </h2>
+            <h2 className="text-[#000000de] font-500"> {product?.last_name}</h2>
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Телефонный номер</p>
-            <h2 className="text-[#000000de] font-500">{product[0]?.phone}</h2>
+            <h2 className="text-[#000000de] font-500">{product?.phone}</h2>
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Адрес электронной почты</p>
-            <h2 className="text-[#000000de] font-500">{product[0]?.email}</h2>
+            <h2 className="text-[#000000de] font-500">{product?.email}</h2>
           </div>
           <div className="flex justify-between mt-5 border-b-2 rounded-xl px-3 py-4">
             <p className=" text-[#666666]">Дата рождение</p>
             <h2 className="text-[#000000de] font-500">
-              {product[0]?.birth_date ? product[0]?.birth_date : "--/--"}
+              {product?.birth_date ? product?.birth_date : "--/--"}
             </h2>
           </div>
         </div>

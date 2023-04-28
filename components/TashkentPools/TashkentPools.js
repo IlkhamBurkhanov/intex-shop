@@ -13,7 +13,7 @@ function TashkentPools() {
   });
 
   return (
-    <section className="mt-8 mb-10 md:mb-36 md:mt-32 px-0 md:px-5">
+    <section className="mt-8 md:mt-32 px-0 md:px-5">
       <div className="max-w-[1180px] w-full bg-gray-bg_main mx-auto px-4 md:rounded-sectionRadius">
         <div className="md:px-8 pt-10">
           <h2 className="font-bold text-lg lg:text-3xl text-black-black_dark">
