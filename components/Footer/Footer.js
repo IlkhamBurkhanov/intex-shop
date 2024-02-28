@@ -18,24 +18,24 @@ const Footer = () => {
   let URL1 = `${env}social-networks`;
   let URL2 = `${env}sites`;
 
-  const promise1 = axios.get(URL1);
-  const promise2 = axios.get(URL2);
+  // const promise1 = axios.get(URL1);
+  // const promise2 = axios.get(URL2);
 
-  useEffect(() => {
-    setLoader(true);
-    Promise.all([promise1, promise2])
-      .then((values) => {
-        setSite(values[0]?.data);
-        setInfo(values[1]?.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoader(false);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   setLoader(true);
+  //   Promise.all([promise1, promise2])
+  //     .then((values) => {
+  //       setSite(values[0]?.data);
+  //       setInfo(values[1]?.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setLoader(false);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <footer id="contact" className="w-full bg-gray-bg_main mt-11">
@@ -44,7 +44,7 @@ const Footer = () => {
           <div className="max-w-281 w-full">
             <Link href={"/"}>
               <Image
-                src={`/Assets/Images/FooterSvg/FooterLogo.svg`}
+                src={`/Assets/Images/HeaderAndHeroImg/logo.jpg`}
                 width={164}
                 height={16}
                 alt="site_logo"

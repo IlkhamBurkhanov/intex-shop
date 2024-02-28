@@ -8,16 +8,20 @@ import {
   searchProduct,
   setCategoryId,
 } from "../../redux/siteDataReducer";
+import LeftSidebar from "./LeftSideBar";
 
 const env = process.env.NEXT_PUBLIC_TOKEN;
 
 function Header() {
+  // newww
+  const [expandedCategory, setExpandedCategory] = useState(null);
+  // olds
   const [openLang, setOpenLang] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const [menuLang, setMenuLang] = useState(false);
   const [clickMenu, setClickMenu] = useState(false);
   const [menuCatOpen, setMenuCatOpen] = useState(false);
-  const [fixedBar, setFixedBar] = useState(false);
+  const [fixedBar, setFixedBar] = useState(true);
   const [categories, setCategories] = useState([]);
   const [flagName, setFlagName] = useState("Ru");
   const [flagImg, setFlagImg] = useState(
@@ -28,28 +32,28 @@ function Header() {
   const lang = useSelector((state) => state.data.lang);
   const languages = useSelector((state) => state.data.localization);
   const [golink, setGoLink] = useState("laa");
+  const [catalog, setCatalog] = useState(false);
+  // useEffect(() => {
+  //   const tokens = JSON.parse(window.localStorage.getItem("token"));
 
-  useEffect(() => {
-    const tokens = JSON.parse(window.localStorage.getItem("token"));
-    console.log(tokens);
-    setGoLink(tokens ? "userprofil" : "login");
-  }, []);
+  //   setGoLink(tokens ? "userprofil" : "login");
+  // }, []);
 
   const dispatch = useDispatch();
   const token = false;
 
   // --- Get Categories
-  useEffect(() => {
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/categories/getCategories`
-      )
-      .then((res) => {
-        // console.log(res?.data);
-        setCategories(res?.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/categories/getCategories`
+  //     )
+  //     .then((res) => {
+  //       // console.log(res?.data);
+  //       setCategories(res?.data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   function handleClickedFlag(evt) {
     setFlagName(evt.target.textContent);
@@ -81,63 +85,27 @@ function Header() {
     dispatch(searchProduct(evt.target.value));
   };
 
-  useEffect(() => {
-    // window is accessible here.
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 10) {
-        setFixedBar(true);
-      } else {
-        setFixedBar(false);
-      }
-    });
-  }, []);
-  useEffect(() => {
-    setSavat(JSON.parse(window.localStorage.getItem("cartItems")));
-  }, []);
+  // useEffect(() => {
+  //   // window is accessible here.
+  //   window.addEventListener("scroll", function () {
+  //     if (window.scrollY > 10) {
+  //       setFixedBar(true);
+  //     } else {
+  //       setFixedBar(false);
+  //     }
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   setSavat(JSON.parse(window.localStorage.getItem("cartItems")));
+  // }, []);
   // console.log(savat?.length);
 
   return (
     <header id="header" className=" shadow-sm">
-      <div className="bg-gray-bg_nav  hidden md:block py-3 border-b-2">
-        <div className="w-full max-w-container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-text font-medium">
-              10:00 - 22:00 {languages[lang].header.workingTime}
-            </p>
-            <a
-              className="text-base font-bold text-blue-accent"
-              href="tel:+998901288182"
-            >
-              +998901288182
-            </a>
-            <div className="flex items-center space-x-6">
-              <Link
-                className="text-sm font-medium text-gray-text"
-                href={"#optom"}
-              >
-                {languages[lang].header.navbar.item1}
-              </Link>
-              <Link
-                className="text-sm font-medium text-gray-text"
-                href={"#pochemu"}
-              >
-                {languages[lang].header.navbar.item2}
-              </Link>
-              <Link
-                className="text-sm font-medium text-gray-text"
-                href={"#consultation"}
-              >
-                {languages[lang].header.navbar.item3}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div
-        className={`bg-gray-bg_nav z-50 md:fixed   w-full ${
-          fixedBar ? "top-0 transition-all" : "top-15 duration-500"
-        } border-b-2 md:border-none`}
+        className="bg-gray-bg_nav z-50 md:fixed w-full 
+          top-0 transition-all
+        border-b-2 md:border-none"
       >
         <div className="w-full max-w-container mx-auto px-4 py-3.5 sm:py-4">
           <div className="flex items-center justify-between">
@@ -145,16 +113,16 @@ function Header() {
               <Link href={"/"} onClick={() => dispatch(setCategoryId(0))}>
                 <Image
                   priority={true}
-                  className="w-52 h-5 hidden sm:inline-block"
-                  src={"/Assets/Images/HeaderAndHeroImg/siteLogo.svg"}
+                  className="w-40 h-auto hidden sm:inline-block"
+                  src={"/Assets/Images/HeaderAndHeroImg/logo.jpg"}
                   width={200}
-                  height={20}
+                  height={50}
                   alt="Site Logo"
                 />
                 <Image
                   priority={true}
-                  className="w-36 h-3.5 sm:hidden"
-                  src={"/Assets/Images/HeaderAndHeroImg/logoMobile.svg"}
+                  className="w-20 h-auto sm:hidden"
+                  src={"/Assets/Images/HeaderAndHeroImg/logo.jpg"}
                   width={150}
                   height={14}
                   alt="Site Logo Mobile"
@@ -162,43 +130,27 @@ function Header() {
               </Link>
               <div className="hidden items-center ml-10 xl:flex space-x-6">
                 <div
+                  onClick={() => setCatalog(!catalog)}
                   id="dropdown"
-                  className="z-50 pb-4 mt-4 category inline-block relative mr-1 pr-4 text-base text-black-black_dark font-medium"
+                  className="z-50  px-5 py-2 rounded-md  category bg-[#ff9d3a] inline-block relative mr-1 pr-4 text-base text-black-black_dark font-medium"
                   href={"/"}
                 >
-                  {languages[lang].header.navCategory.item1}
-
                   <Image
-                    className={`drop-img duration-200 absolute w-3 h-2 right-0 top-2.5`}
-                    src={"/Assets/Images/HeaderAndHeroImg/drop-img.svg"}
+                    className={` absolute w-5 h-5 mt-0.5`}
+                    src={
+                      catalog
+                        ? "/Assets/Images/HeaderAndHeroImg/Xcatalog.png"
+                        : "/Assets/Images/HeaderAndHeroImg/hamburger.svg"
+                    }
                     width={9}
                     height={5}
                     alt="Drop_img"
                     priority={true}
                   />
-                  <ul
-                    className={`duration-100 w-28 h-0 overflow-hidden category-list -translate-y-4 opacity-0  absolute bg-white p-3 rounded-xl shadow-lg `}
-                  >
-                    {categories?.map((item) => (
-                      <li key={item?.id}>
-                        <span
-                          className="font-normal text-sm inline-block duration-150 text-black-black_thin mb-2 cursor-pointer"
-                          onClick={() => {
-                            dispatch(setCategoryId(item.id));
-                          }}
-                        >
-                          {lang === "ru"
-                            ? item?.category_ru
-                            : lang === "en"
-                            ? item?.category_en
-                            : item?.category_uz}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <h2 className="ml-8">Mahsulotlar katalogi</h2>
                 </div>
 
-                <Link
+                {/* <Link
                   className="ml-6 text-base text-black-black_dark font-medium"
                   href={"#populyar"}
                 >
@@ -215,16 +167,16 @@ function Header() {
                   href={"#skidka"}
                 >
                   {languages[lang].header.navCategory.item4}
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="flex items-center pl-3">
               <input
                 id="input-searching"
-                className="hidden md:inline-block  w-[260px] py-2.5 rounded-xl pl-9 outline-none"
+                className="hidden md:inline-block  md:w-[560px] w-[260px] py-2.5 rounded-xl pl-9 outline-none"
                 type="text"
                 autoComplete="off"
-                placeholder={`${languages[lang].header.navCategory.searchInput}`}
+                placeholder="Qidirish"
                 aria-label="Enter your searching"
                 onChange={handleChange}
               />
@@ -341,7 +293,7 @@ function Header() {
                 />
               </a>
 
-              <div className="relative ">
+              {/* <div className="relative ">
                 <div
                   onClick={() => setOpenLang(!openLang)}
                   className="bg-white relative language-wrap hidden cursor-pointer sm:flex ml-5 w-20  items-center justify-between py-3 z-40 pl-1 pr-2 rounded-md"
@@ -394,7 +346,7 @@ function Header() {
                     Ru
                   </li>
                 </ul>
-              </div>
+              </div> */}
               <button className="hidden cursor-pointer md:inline-block ml-3 xl:hidden">
                 <Image
                   onClick={() => setClickMenu(true)}
@@ -408,6 +360,13 @@ function Header() {
               </button>
             </div>
           </div>
+        </div>
+        <div
+          className={
+            catalog ? "w-full h-[600px] hidden lg:block bg-red-200" : "hidden"
+          }
+        >
+          hi
         </div>
       </div>
       <div
@@ -472,7 +431,7 @@ function Header() {
               alt="Menu Bar Logo"
             />
           </Link>
-          <div
+          {/* <div
             onClick={() => setMenuLang(!menuLang)}
             className={`flex z-50 relative items-center justify-between ${
               menuLang ? "" : "border-b-2"
@@ -497,9 +456,9 @@ function Header() {
               height={5}
               alt="Drop Down Img"
             />
-          </div>
+          </div> */}
           {/* Language Drop Down */}
-          <ul
+          {/* <ul
             className={`${
               menuLang
                 ? "translate-y-0 opacity-1 h-auto mb-2"
@@ -524,7 +483,7 @@ function Header() {
             >
               Ру
             </li>
-          </ul>
+          </ul> */}
           <div
             onClick={() => setMenuCatOpen(!menuCatOpen)}
             className={`${

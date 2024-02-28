@@ -10,7 +10,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "intex-shop-production.up.railway.app",
+        hostname: "",
       },
     ],
   },

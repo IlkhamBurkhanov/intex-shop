@@ -37,17 +37,17 @@ const Sale_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   const languages = useSelector((state) => state.data.localization);
 
   // --- get Product
-  useEffect(() => {
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=2`
-      )
-      .then((res) => {
-        setTovar(res?.data?.result);
-        setLoader(false);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=2`
+  //     )
+  //     .then((res) => {
+  //       setTovar(res?.data?.result);
+  //       setLoader(false);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
   let chatId = "636476536";
@@ -59,59 +59,56 @@ const Sale_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   };
 
   const onSubmit = (values, { resetForm }) => {
-    let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
-    setLoading(true);
-
-    // --- Sent Message for Telegram
-    axios
-      .post(
-        `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
-      )
-      .then(function () {
-        console.log("Submitted");
-      })
-      .catch(function () {
-        toast.error("Internal error");
-      });
-
-    // --- Create Order
-    axios
-      .post(`${env}orders/create`, {
-        order: {
-          name: values.name,
-          phone: String(`+998${values.number}`),
-          address: values.address,
-          location: {
-            x: 49.9,
-            y: 62.2,
-          },
-          order_number: "0",
-          status_id: 3,
-        },
-        bascet: [
-          {
-            count: numberProduct,
-            product_id: find.id,
-          },
-        ],
-      })
-      .then((res) => {
-        if (res?.status === 201) {
-          setModalContent(true);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setNumberProduct(1);
-        setLoading(false);
-        setTimeout(() => {
-          setShowModal(false);
-          setModalContent(false);
-        }, 2000);
-      });
-
-    values.name = "";
-    resetForm({ values: "" });
+    // let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
+    // setLoading(true);
+    // // --- Sent Message for Telegram
+    // axios
+    //   .post(
+    //     `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
+    //   )
+    //   .then(function () {
+    //     console.log("Submitted");
+    //   })
+    //   .catch(function () {
+    //     toast.error("Internal error");
+    //   });
+    // // --- Create Order
+    // axios
+    //   .post(`${env}orders/create`, {
+    //     order: {
+    //       name: values.name,
+    //       phone: String(`+998${values.number}`),
+    //       address: values.address,
+    //       location: {
+    //         x: 49.9,
+    //         y: 62.2,
+    //       },
+    //       order_number: "0",
+    //       status_id: 3,
+    //     },
+    //     bascet: [
+    //       {
+    //         count: numberProduct,
+    //         product_id: find.id,
+    //       },
+    //     ],
+    //   })
+    //   .then((res) => {
+    //     if (res?.status === 201) {
+    //       setModalContent(true);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => {
+    //     setNumberProduct(1);
+    //     setLoading(false);
+    //     setTimeout(() => {
+    //       setShowModal(false);
+    //       setModalContent(false);
+    //     }, 2000);
+    //   });
+    // values.name = "";
+    // resetForm({ values: "" });
   };
 
   const phoneRegExp = /^[0-9]{9}$/;

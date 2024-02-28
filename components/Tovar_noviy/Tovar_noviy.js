@@ -22,6 +22,9 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import Card from "../Card/Card";
 
+// neeeeeeeeew
+import ImageNew from "../../public/Assets/Images/news/fakeImage.jpg";
+
 const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
 
@@ -30,7 +33,7 @@ const img = process.env.NEXT_PUBLIC_IMG;
 const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   const [tovar, setTovar] = useState([]);
   const [find, setFind] = useState({});
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
   const [numberProduct, setNumberProduct] = useState(1);
@@ -46,24 +49,26 @@ const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
 
   // console.log(userToken);
 
-  useEffect(() => {
-    if (window.localStorage.getItem("token")) {
-      setTokens(JSON.parse(window.localStorage.getItem("token")));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (window.localStorage.getItem("token")) {
+  //     setTokens(JSON.parse(window.localStorage.getItem("token")));
+  //   }
+  // }, []);
   // console.log(tokens);
 
   useEffect(() => {
     axios
       .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=1`
+        `http://194.31.52.65/api/product/category/Noutbuklar?minPrice=0&maxPrice=100000000&orderType=true&page=0&size=20`
       )
       .then((res) => {
-        setTovar(res?.data?.result);
-        setLoader(false);
-        // console.log(tokens);
+        // setTovar(res?.data?.result);
+        // setLoader(false);
+        console.log(res);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
 
   let token = "5463520222:AAFQgcQ7hyUTAYV3ad0YaGTQ_lGIbRZyyxg";
@@ -76,59 +81,171 @@ const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   };
 
   const onSubmit = (values, { resetForm }) => {
-    let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
-    setLoading(true);
-
-    // --- Sent Message for Telegram
-    axios
-      .post(
-        `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
-      )
-      .then(function () {
-        console.log("Submitted");
-      })
-      .catch(function () {
-        toast.error("Internal error");
-      });
-
-    // --- Create Order
-    axios
-      .post(`${env}orders/create`, {
-        order: {
-          name: values.name,
-          phone: String(`+998${values.number}`),
-          address: values.address,
-          location: {
-            x: 49.9,
-            y: 62.2,
-          },
-          order_number: "0",
-          status_id: 3,
-        },
-        bascet: [
-          {
-            count: numberProduct,
-            product_id: find.id,
-          },
-        ],
-      })
-      .then((res) => {
-        if (res?.status === 201) {
-          setModalContent(true);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setNumberProduct(1);
-        setLoading(false);
-        setTimeout(() => {
-          setShowModal(false);
-          setModalContent(false);
-        }, 2000);
-      });
-
-    values.name = "";
-    resetForm({ values: "" });
+    // let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
+    // setLoading(true);
+    // // --- Sent Message for Telegram
+    // axios
+    //   .post(
+    //     `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
+    //   )
+    //   .then(function () {
+    //     console.log("Submitted");
+    //   })
+    //   .catch(function () {
+    //     toast.error("Internal error");
+    //   });
+    // // --- Create Order
+    // axios
+    //   .post(`${env}orders/create`, {
+    //     order: {
+    //       name: values.name,
+    //       phone: String(`+998${values.number}`),
+    //       address: values.address,
+    //       location: {
+    //         x: 49.9,
+    //         y: 62.2,
+    //       },
+    //       order_number: "0",
+    //       status_id: 3,
+    //     },
+    //     bascet: [
+    //       {
+    //         count: numberProduct,
+    //         product_id: find.id,
+    //       },
+    //     ],
+    //   })
+    //   .then((res) => {
+    //     if (res?.status === 201) {
+    //       setModalContent(true);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => {
+    //     setNumberProduct(1);
+    //     setLoading(false);
+    //     setTimeout(() => {
+    //       setShowModal(false);
+    //       setModalContent(false);
+    //     }, 2000);
+    //   });
+    // values.name = "";
+    // resetForm({ values: "" });
+  };
+  const product_new = {
+    message: "Success",
+    success: true,
+    totalElements: 9,
+    totalPages: 1,
+    object: [
+      {
+        id: 11213,
+        name: "Shivaki SH-CM-9116",
+        store_name: "Idea",
+        product_link:
+          "https://idea.uz/product/6078-kofevarka-shivaki-sh-cm-9116",
+        product_image: "Shivaki_SH-CM-9116.png",
+        characteristics: null,
+        category_name: "Qahva mashinalari",
+        price: 370000.0,
+        date: "2024-02-04T00:00:00.000+00:00",
+      },
+      {
+        id: 11216,
+        name: "Shivaki SH-CM-1105",
+        store_name: "Idea",
+        product_link:
+          "https://idea.uz/product/5592-kofevarka-shivaki-sh-cm-1105",
+        product_image: "Shivaki_SH-CM-1105.png",
+        characteristics: null,
+        category_name: "Qahva mashinalari",
+        price: 383000.0,
+        date: "2024-02-04T00:00:00.000+00:00",
+      },
+      {
+        id: 11215,
+        name: "Moulinex UNO FG121811",
+        store_name: "Idea",
+        product_link:
+          "https://idea.uz/product/5838-kofevarka-kapelnaya-moulinex-uno-fg121811",
+        product_image: "Moulinex_UNO_FG121811.png",
+        characteristics: null,
+        category_name: "Qahva mashinalari",
+        price: 532000.0,
+        date: "2024-02-04T00:00:00.000+00:00",
+      },
+      {
+        id: 11217,
+        name: "Bosch TKA6A041",
+        store_name: "Idea",
+        product_link:
+          "https://idea.uz/product/1136-kapel-naya-kofevarka-bosch-tka6a041",
+        product_image: "Bosch_TKA6A041.png",
+        characteristics: null,
+        category_name: "Qahva mashinalari",
+        price: 818000.0,
+        date: "2024-02-04T00:00:00.000+00:00",
+      },
+      {
+        id: 11218,
+        name: "Bosch TKA6A043",
+        store_name: "Idea",
+        product_link:
+          "https://idea.uz/product/1137-kapel-naya-kofevarka-bosch-tka6a043",
+        product_image: "Bosch_TKA6A043.png",
+        characteristics: null,
+        category_name: "Qahva mashinalari",
+        price: 818000.0,
+        date: "2024-02-04T00:00:00.000+00:00",
+      },
+      // {
+      //   id: 11220,
+      //   name: "Bosch TKA6A044",
+      //   store_name: "Idea",
+      //   product_link: "https://idea.uz/product/1304-kofevarka-bosch-tka6a044",
+      //   product_image: "Bosch_TKA6A044.png",
+      //   characteristics: null,
+      //   category_name: "Qahva mashinalari",
+      //   price: 818000.0,
+      //   date: "2024-02-04T00:00:00.000+00:00",
+      // },
+      // {
+      //   id: 11219,
+      //   name: "Philips HD7462/20",
+      //   store_name: "Idea",
+      //   product_link:
+      //     "https://idea.uz/product/5269-kofevarka-kapelnogo-tipa-philips-hd7462-20",
+      //   product_image: "Philips_HD7462_20.png",
+      //   characteristics: null,
+      //   category_name: "Qahva mashinalari",
+      //   price: 912000.0,
+      //   date: "2024-02-04T00:00:00.000+00:00",
+      // },
+      // {
+      //   id: 11214,
+      //   name: "Tefal Smart&Light CM600810",
+      //   store_name: "Idea",
+      //   product_link:
+      //     "https://idea.uz/product/5831-kapelnaya-kofevarka-tefal-smartandlight-cm600810",
+      //   product_image: "Tefal_Smart&Light_CM600810.png",
+      //   characteristics: null,
+      //   category_name: "Qahva mashinalari",
+      //   price: 977000.0,
+      //   date: "2024-02-04T00:00:00.000+00:00",
+      // },
+      // {
+      //   id: 11212,
+      //   name: "Philips  HD7461/00",
+      //   store_name: "Idea",
+      //   product_link:
+      //     "https://idea.uz/product/4313-kofevarka-kapel-naya-philips-hd7461-00",
+      //   product_image: "Philips__HD7461_00.png",
+      //   characteristics: null,
+      //   category_name: "Qahva mashinalari",
+      //   price: 980000.0,
+      //   date: "2024-02-04T00:00:00.000+00:00",
+      // },
+    ],
   };
 
   const phoneRegExp = /^[0-9]{9}$/;
@@ -208,16 +325,16 @@ const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   return (
     <section
       id="noviy"
-      className="max-w-[1210px] mx-auto bg-white pl-[16px] md:pl-0 pt-10 md:pt-36 "
+      className=" sm:mx-10 bg-white pl-[16px] md:pl-0 mt-5 md:pt-5 "
     >
-      <h2 className="font-bold text-xl md:text-32 leading-36 pl-0 md:pl-3">
+      <h2 className="font-bold text-xl md:text-2xl leading-36 pl-0 md:pl-3">
         {lang === "ru"
           ? "Новые товары"
           : lang === "en"
           ? "New goods"
-          : "Yangi tovarlar"}
+          : "Oshxona uchun kichik texnika"}
       </h2>
-      <div className="mt-10">
+      <div className="">
         <Swiper
           slidesPerView={mobile ? 2 : 4}
           spaceBetween={mobile ? 170 : 30}
@@ -240,12 +357,12 @@ const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
             </div>
           ) : (
             <div className="flex gap-5">
-              {product.map((el) => {
+              {product_new.object.map((el, index) => {
                 return (
                   <Card
                     key={el?.id}
                     id={el?.id}
-                    image={el?.image}
+                    image={ImageNew}
                     attributes={el?.attributes}
                     subattributes={el?.subattributes}
                     status_ru={el?.status_ru}
@@ -253,7 +370,7 @@ const Tovar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
                     status_uz={el?.status_uz}
                     name_ru={el?.name_ru}
                     name_en={el?.name_en}
-                    name_uz={el?.name_uz}
+                    name_uz={el?.name}
                     price={el?.price}
                     sale={el?.discount_price}
                     product={el}

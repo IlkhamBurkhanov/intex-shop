@@ -22,8 +22,8 @@ const languages = {
       },
     },
     hero: {
-      heading: "Toshkentdagi intex dan basseynlar",
-      text: "Intex-dan suzish havzalari - bu butun oila uchun yoqimli dam olish uchun mo'ljallangan arzon, yuqori sifatli, ishonchli va ekologik toza mahsulotlar.",
+      heading: "dan eng arzon va sifatlisi sotib oling",
+      text: "xnarx-dan eng arzon tovarlar - bu barcha magazinlardagi mavjud arzon, yuqori sifatli, ishonchli mahsulotlar.",
       button: "Buyurtma berish",
     },
     popular: {
@@ -62,11 +62,11 @@ const languages = {
       },
     },
     consultation: {
-      title: "Konsultatsiya olish",
-      text: "Maslahat olish uchun bizga telefon raqamingizni va ismingizni yuboring, biz sizga imkon qadar tezroq javob beramiz.",
+      title: "Biz bilan bog'lanish",
+      text: "Biz bilan bog'lanish uchun bizga telefon raqamingizni va ismingizni yuboring, biz sizga imkon qadar tezroq javob beramiz.",
     },
     footer: {
-      text: "Intex-dan suzish havzalari - butun oila uchun yoqimli dam olish uchun mo'ljallangan arzon, yuqori sifatli, ishonchli va ekologik toza mahsulotlar",
+      text: "Xnarx-dan eng arzon va sifatli tovarlar - Barchaga qulaylik yaratish uchun, siz qidirayotgan arzon, yuqori sifatli, ishonchli mahsulotlar",
       linkList: {
         linkListName: "foydali havolalar",
         linkItem1: "Mahsulot haqida",
@@ -90,7 +90,7 @@ const languages = {
       },
     },
     footer_text:
-      "INTEX-MARKET © 2022, Support Solutions tomonidan ishlab chiqilgan Barcha huquqlar himoyalangan.",
+      "XNARX-MARKET © 2024, XXXXXXXXXXX tomonidan ishlab chiqilgan Barcha huquqlar himoyalangan.",
     naduvniy: {
       route: "Orqaga",
       name: "Puflanadigan basseynlar",

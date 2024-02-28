@@ -29,63 +29,61 @@ function Order() {
   const [discountAll, setDiscountAll] = useState(0);
   // https://intex-shop-production.up.railway.app/api/orders
 
-  useEffect(() => {
-    setCardItems(
-      localStorage.getItem("cartItems")
-        ? JSON.parse(localStorage.getItem("cartItems"))
-        : []
-    );
-    const aliw = JSON.parse(localStorage.getItem("cartItems"));
-    console.log({ aliw });
-    let sum = 0;
-    let disAll = 0;
-    aliw.map((e) => {
-      sum += e.price * e.qty;
-      disAll += e.discount_price * e.qty;
-    });
-    setAllSum(sum);
-    setDiscountAll(disAll);
-    console.log({ aliw });
-  }, []);
+  // useEffect(() => {
+  //   setCardItems(
+  //     localStorage.getItem("cartItems")
+  //       ? JSON.parse(localStorage.getItem("cartItems"))
+  //       : []
+  //   );
+  //   const aliw = JSON.parse(localStorage.getItem("cartItems"));
+  //   console.log({ aliw });
+  //   let sum = 0;
+  //   let disAll = 0;
+  //   aliw.map((e) => {
+  //     sum += e.price * e.qty;
+  //     disAll += e.discount_price * e.qty;
+  //   });
+  //   setAllSum(sum);
+  //   setDiscountAll(disAll);
+  //   console.log({ aliw });
+  // }, []);
 
-  const newData = cardItems.map((item, index) => {
-    return {
-      count: item.qty,
-      product_id: item.id,
-      order_number: "string",
-      user_id: 1,
-      product_sub_attr_id: [0],
-      status_id: item.status_id,
-      payment_type: paymentType,
-      comment: comment,
-      country: valley,
-      region: city,
-      address: address,
-      floor: level,
-      price: item.price,
-      delivery_type: "free",
-    };
-  });
+  // const newData = cardItems.map((item, index) => {
+  //   return {
+  //     count: item.qty,
+  //     product_id: item.id,
+  //     order_number: "string",
+  //     user_id: 1,
+  //     product_sub_attr_id: [0],
+  //     status_id: item.status_id,
+  //     payment_type: paymentType,
+  //     comment: comment,
+  //     country: valley,
+  //     region: city,
+  //     address: address,
+  //     floor: level,
+  //     price: item.price,
+  //     delivery_type: "free",
+  //   };
+  // });
 
-  const handleOrder = (e) => {
-    console.log("HELOOOOOO");
-    axios
-      .post("https://intex-shop-production.up.railway.app/api/orders", {
-        user: {
-          first_name: fullName,
-          last_name: null,
-          phone: phone,
-        },
-        order: newData,
-      })
-      .then((res) => {
-        setShowModal(true);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const handleOrder = (e) => {
+  //   console.log("HELOOOOOO");
+  //   axios
+  //     .post("https://intex-shop-production.up.railway.app/api/orders", {
+  //       user: {
+  //         first_name: fullName,
+  //         last_name: null,
+  //         phone: phone,
+  //       },
+  //       order: newData,
+  //     })
+  //     .then((res) => {
+  //       setShowModal(true);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  console.log(cardItems);
-  console.log(newData);
   const payAll = discountAll + 20000;
   const dast = 20000;
   return (

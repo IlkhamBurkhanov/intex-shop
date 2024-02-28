@@ -20,11 +20,17 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Card from "../Card/Card";
 
+import ImageProduct from "../../public/Assets/Images/news/product.jpg";
+import ImagePro from "../../public/Assets/Images/news/plisos.png";
+
 const env = process.env.NEXT_PUBLIC_TOKEN;
 const img = process.env.NEXT_PUBLIC_IMG;
 
 const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
-  const [loader, setLoader] = useState(true);
+  // news
+
+  // olds
+  const [loader, setLoader] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [numberProduct, setNumberProduct] = useState(1);
   const [modalContent, setModalContent] = useState(false);
@@ -38,20 +44,20 @@ const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   //Basket
 
   // --- Get Product
-  useEffect(() => {
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
-      )
-      .then((res) => {
-        // console.log(res);
-        setTovar(res?.data?.result);
-        setLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
+  //     )
+  //     .then((res) => {
+  //       // console.log(res);
+  //       setTovar(res?.data?.result);
+  //       setLoader(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   // console.log(tovar);
 
@@ -65,61 +71,58 @@ const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
   };
 
   const onSubmit = (values, { resetForm }) => {
-    let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
-    setLoading(true);
-
-    // --- Sent Message for Telegram
-    while (condition) {
-      axios
-        .post(
-          `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
-        )
-        .then(function () {
-          console.log("Submitted");
-        })
-        .catch(function () {
-          toast.error("Internal error");
-        });
-    }
-
-    // --- Create Order
-    axios
-      .post(`${env}orders/create`, {
-        order: {
-          name: values.name,
-          phone: String(`+998${values.number}`),
-          address: values.address,
-          location: {
-            x: 49.9,
-            y: 62.2,
-          },
-          order_number: "0",
-          status_id: 3,
-        },
-        bascet: [
-          {
-            count: numberProduct,
-            product_id: find.id,
-          },
-        ],
-      })
-      .then((res) => {
-        if (res?.status === 201) {
-          setModalContent(true);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setNumberProduct(1);
-        setLoading(false);
-        setTimeout(() => {
-          setShowModal(false);
-          setModalContent(false);
-        }, 2000);
-      });
-
-    values.name = "";
-    resetForm({ values: "" });
+    // let fullText = `\u{2705} Name: ${values.name}%0A\u{2705} Phone Number: \u{FF0B}998${values.number} %0A\u{2705} Address: ${values.address}`;
+    // setLoading(true);
+    // // --- Sent Message for Telegram
+    // while (condition) {
+    //   axios
+    //     .post(
+    //       `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${fullText}`
+    //     )
+    //     .then(function () {
+    //       console.log("Submitted");
+    //     })
+    //     .catch(function () {
+    //       toast.error("Internal error");
+    //     });
+    // }
+    // // --- Create Order
+    // axios
+    //   .post(`${env}orders/create`, {
+    //     order: {
+    //       name: values.name,
+    //       phone: String(`+998${values.number}`),
+    //       address: values.address,
+    //       location: {
+    //         x: 49.9,
+    //         y: 62.2,
+    //       },
+    //       order_number: "0",
+    //       status_id: 3,
+    //     },
+    //     bascet: [
+    //       {
+    //         count: numberProduct,
+    //         product_id: find.id,
+    //       },
+    //     ],
+    //   })
+    //   .then((res) => {
+    //     if (res?.status === 201) {
+    //       setModalContent(true);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => {
+    //     setNumberProduct(1);
+    //     setLoading(false);
+    //     setTimeout(() => {
+    //       setShowModal(false);
+    //       setModalContent(false);
+    //     }, 2000);
+    //   });
+    // values.name = "";
+    // resetForm({ values: "" });
   };
 
   const phoneRegExp = /^[0-9]{9}$/;
@@ -201,19 +204,91 @@ const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
     setFind(fintProduct);
   };
 
+  const products_p = [
+    {
+      id: 1,
+      image: { ImageProduct },
+      attributes: "atributes",
+      subattributes: "subatributes",
+      status_ru: "status_ru",
+      status_uz: "status_uz",
+      status_en: "status_en",
+      name_en: "Name Produxt",
+      name_ru: "Name Produxt ru",
+      name_uz: "Nomi Product",
+      price: "2 200 000",
+      sale: "2 450 000",
+    },
+    {
+      id: 1,
+      image: {},
+      attributes: "atributes",
+      subattributes: "subatributes",
+      status_ru: "Новиaнки",
+      status_uz: "status_uz",
+      status_en: "status_en",
+      name_en: "Name Produxt",
+      name_ru: "Name Produxt ru",
+      name_uz: "Nomi Product",
+      price: "2 600 000",
+      sale: "2 450 000",
+    },
+    {
+      id: 1,
+      image: {},
+      attributes: "atributes",
+      subattributes: "subatributes",
+      status_ru: "Новиaнки",
+      status_uz: "status_uz",
+      status_en: "status_en",
+      name_en: "Name Produxt",
+      name_ru: "Name Produxt ru",
+      name_uz: "Nomi Product",
+      price: "2 600 000",
+      sale: "2 450 000",
+    },
+    {
+      id: 1,
+      image: {},
+      attributes: "atributes",
+      subattributes: "subatributes",
+      status_ru: "Скидaка",
+      status_uz: "status_uz",
+      status_en: "status_en",
+      name_en: "Name Produxt",
+      name_ru: "Name Produxt ru",
+      name_uz: "Nomi Product",
+      price: "2 600 000",
+      sale: "2 450 000",
+    },
+    {
+      id: 1,
+      image: {},
+      attributes: "atributes",
+      subattributes: "subatributes",
+      status_ru: "Pекомендaaуемые",
+      status_uz: "status_uz",
+      status_en: "status_en",
+      name_en: "Name Produxt",
+      name_ru: "Name Produxt ru",
+      name_uz: "Nomi Product",
+      price: "2 600 000",
+      sale: "2 450 000",
+    },
+  ];
   return (
     <section
       id="populyar"
-      className="max-w-[1210px] mx-auto bg-white pl-[16px] md:pl-0 md:pt-[120px]"
+      className="sm:mx-10 bg-white pl-[16px] md:pl-0 mt-5 md:pt-[60px]"
     >
-      <h2 className="font-bold text-xl md:text-32 leading-36 pl-0 md:pl-3">
+      <h2 className="font-bold text-xl md:text-2xl leading-36 pl-0 md:pl-3">
         {lang === "ru"
           ? "Популярные товары"
           : lang === "en"
           ? "Popular goods"
           : "Ommabop tovarlar"}
       </h2>
-      <div className="mt-10">
+      <div className="">
         <Swiper
           slidesPerView={mobile ? 2 : 4}
           spaceBetween={mobile ? 170 : 30}
@@ -230,7 +305,7 @@ const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
             paddingRight: "20px",
           }}
           // spaceBetween={30}
-          // slidesPerView={4}  // show 4 slides at a time
+          // slidesPerView={4} // show 4 slides at a time
           // slidesPerGroup={4} // move 4 slides at a time
           // navigation
           // pagination={{ clickable: true }}
@@ -240,13 +315,13 @@ const Populyar_nov = ({ mobile, cartItems, product, onAdd, onRemove }) => {
               <Spinner />
             </div>
           ) : (
-            <div className="flex gap-5">
-              {product?.map((el) => {
+            <div className="flex gap-5 overflow-x-auto md:overflow-x-clip">
+              {products_p?.map((el) => {
                 return (
                   <Card
                     key={el?.id}
                     id={el?.id}
-                    image={el?.image}
+                    image={ImagePro}
                     attributes={el?.attributes}
                     subattributes={el?.subattributes}
                     status_ru={el?.status_ru}

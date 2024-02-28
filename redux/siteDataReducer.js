@@ -87,7 +87,7 @@ const siteProducts = createSlice({
   name: "products",
   initialState: {
     localization: languages,
-    lang: "ru",
+    lang: "uz",
     initialState,
     search: "",
     categoryId: 0,

@@ -13,6 +13,8 @@ import SimilarProducts from "../Similat_ptoducts/similar";
 import Products from "../Products/Products";
 import axios from "axios";
 
+import Magazines from "../Magazines/Magazines";
+
 function Main() {
   const [mobile, setMobile] = useState(false);
   const [product, setProduct] = useState([]);
@@ -49,13 +51,13 @@ function Main() {
     }
   };
 
-  useEffect(() => {
-    setCardItems(
-      localStorage.getItem("cartItems")
-        ? JSON.parse(localStorage.getItem("cartItems"))
-        : []
-    );
-  }, []);
+  // useEffect(() => {
+  //   setCardItems(
+  //     localStorage.getItem("cartItems")
+  //       ? JSON.parse(localStorage.getItem("cartItems"))
+  //       : []
+  //   );
+  // }, []);
   const onAdds = (newProduct) => {
     const exist = cartItems.find((x) => x.id === newProduct.id);
     if (exist) {
@@ -113,67 +115,67 @@ function Main() {
     }
   };
 
-  useEffect(() => {
-    setCardItems(
-      localStorage.getItem("cartItems")
-        ? JSON.parse(localStorage.getItem("cartItems"))
-        : []
-    );
-  }, []);
+  // useEffect(() => {
+  //   setCardItems(
+  //     localStorage.getItem("cartItems")
+  //       ? JSON.parse(localStorage.getItem("cartItems"))
+  //       : []
+  //   );
+  // }, []);
 
-  useEffect(() => {
-    let details = navigator.userAgent;
-    let regexp = /android|iphone|kindle|ipad/i;
-    let isMobileDevice = regexp.test(details);
-    if (isMobileDevice) {
-      setMobile(true);
-    } else {
-      setMobile(false);
-    }
-  }, []);
-  useEffect(() => {
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
-      )
-      .then((res) => {
-        // console.log(res);
-        setProduct(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  // useEffect(() => {
+  //   let details = navigator.userAgent;
+  //   let regexp = /android|iphone|kindle|ipad/i;
+  //   let isMobileDevice = regexp.test(details);
+  //   if (isMobileDevice) {
+  //     setMobile(true);
+  //   } else {
+  //     setMobile(false);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=3`
+  //     )
+  //     .then((res) => {
+  //       // console.log(res);
+  //       setProduct(res?.data?.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
 
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=1`
-      )
-      .then((res) => {
-        // console.log(res);
-        setNewProduct(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    axios
-      .get(
-        `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=2`
-      )
-      .then((res) => {
-        // console.log(res);
-        setDiscountProduct(res?.data?.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=1`
+  //     )
+  //     .then((res) => {
+  //       // console.log(res);
+  //       setNewProduct(res?.data?.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   axios
+  //     .get(
+  //       `https://intex-shop-production.up.railway.app/api/products?current_page=0&status_ids=2`
+  //     )
+  //     .then((res) => {
+  //       // console.log(res);
+  //       setDiscountProduct(res?.data?.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <main>
+      <Magazines />
       <Hero />
       {/* <Order /> */}
       {/* <Basket /> */}
-
       <Populyar_nov
         cartItems={cartItems}
         onAdd={onAdd}
@@ -181,7 +183,7 @@ function Main() {
         mobile={mobile}
         product={product}
       />
-      <TashkentPools />
+      {/* <TashkentPools /> */}
       <Tovar_nov
         mobile={mobile}
         cartItems={cartItems}
@@ -189,8 +191,8 @@ function Main() {
         onRemove={onRemoves}
         product={newProduct}
       />
-      <BuyAll />
-      <AboutUs />
+      {/* <BuyAll /> */}
+      {/* <AboutUs /> */}
       <Sale_nov
         mobile={mobile}
         cartItems={cartItems}
